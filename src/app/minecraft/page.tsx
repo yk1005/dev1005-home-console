@@ -1,20 +1,33 @@
 'use client';
-import { fetchOnlineUsers, User } from '@/actions/rcon';
-import { Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
-import Container from '@mui/material/Container';
 import { useEffect, useState } from 'react';
+
+import { Box, IconButton, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, Container, Button } from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
+
+import { fetchOnlineUsers, User } from '@/actions/rcon';
 
 export default function Minecraft() {
     const [users, setUsers] = useState<Array<User>>();
 
-    useEffect(() => {
+    const refresh = () => {
         fetchOnlineUsers()
             .then((users) => setUsers(users))
+    }
+
+    useEffect(() => {
+        refresh()
     }, [])
 
     return (
         <Container maxWidth="lg" sx={{ paddingY: "16px" }}>
-            <Typography variant='h4'>Online Users</Typography>
+            <Box display={"flex"}>
+                <Typography variant='h4' flexGrow={1}>Online Users</Typography>
+                <Box alignContent={"center"}>
+                    <Button variant='outlined' onClick={() => refresh()}>
+                        <RefreshIcon />
+                    </Button>
+                </Box>
+            </Box>
             <Paper sx={{ marginY: "16px" }}>
                 <Table>
                     <TableHead>
