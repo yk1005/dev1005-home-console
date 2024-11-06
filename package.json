@@ -17,6 +17,7 @@
     "@mui/material": "latest",
     "@mui/material-nextjs": "latest",
     "next": "latest",
+    "rcon-client": "^4.2.5",
     "react": "latest",
     "react-dom": "latest"
   },
