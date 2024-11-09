@@ -24,8 +24,10 @@ export async function fetchOnlineUsers() {
             }
 
             return user
-        })
+        }).filter((user) => user.name && user.uuid)
+
         return users
+
     } catch (error) {
         console.error(error)
     }

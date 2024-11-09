@@ -1,17 +1,21 @@
 'use client';
 import { useEffect, useState } from 'react';
 
-import { Box, IconButton, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, Container, Button } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, Container, Button, CircularProgress } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
 import { fetchOnlineUsers, User } from '@/actions/rcon';
 
 export default function Minecraft() {
+    const [isLoading, setIsLoading] = useState<boolean>();
     const [users, setUsers] = useState<Array<User>>();
 
     const refresh = () => {
+        setIsLoading(true)
+
         fetchOnlineUsers()
             .then((users) => setUsers(users))
+            .finally(() => { setIsLoading(false) })
     }
 
     useEffect(() => {
@@ -37,12 +41,27 @@ export default function Minecraft() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {users?.map((user) => (
-                            <TableRow key={user.uuid}>
-                                <TableCell>{user.name}</TableCell>
-                                <TableCell>{user.uuid}</TableCell>
+                        {isLoading && (
+                            <TableRow>
+                                <TableCell colSpan={2} align='center'>
+                                    <CircularProgress />
+                                </TableCell>
                             </TableRow>
-                        ))}
+                        )}
+
+                        {!isLoading && (
+                            users?.length ? users.map((user) => (
+                                <TableRow key={user.uuid}>
+                                    <TableCell>{user.name}</TableCell>
+                                    <TableCell>{user.uuid}</TableCell>
+                                </TableRow>
+                            )) :
+                                <TableRow>
+                                    <TableCell colSpan={2}>
+                                        <Typography>No online users.</Typography>
+                                    </TableCell>
+                                </TableRow>
+                        )}
                     </TableBody>
                 </Table>
             </Paper>
