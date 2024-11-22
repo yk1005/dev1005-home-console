@@ -1,9 +1,9 @@
 'use client';
-import { AppBar, Toolbar, Typography, Drawer, Box, IconButton, ListItem, ListItemButton, ListItemText, List, ListSubheader, ListItemIcon } from '@mui/material';
+import { AppBar, Toolbar, Typography, Drawer, Box, IconButton, ListItem, ListItemButton, ListItemText, List, ListSubheader, ListItemIcon, Link } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 import { useState } from 'react';
 import { PathInfo, pathList } from '@/const/paths';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 
 export default function ParentFrame() {
@@ -22,7 +22,9 @@ export default function ParentFrame() {
                     >
                         <Menu />
                     </IconButton>
-                    <Typography variant='h6'>Console</Typography>
+                    <Link href='/' component={NextLink} underline='none' color='white'>
+                        <Typography variant='h6'>Console</Typography>
+                    </Link>
                 </Toolbar>
             </AppBar>
             <Toolbar />
@@ -44,7 +46,7 @@ export default function ParentFrame() {
 const generatePathItemList = (list: Array<PathInfo>) => {
     return list.map((value) => (
         <ListItem key={value.name} disablePadding>
-            <ListItemButton LinkComponent={Link} href={value.path}>
+            <ListItemButton LinkComponent={NextLink} href={value.path}>
                 <ListItemIcon>
                     <WidgetsIcon />
                 </ListItemIcon>
